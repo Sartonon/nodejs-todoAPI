@@ -34,7 +34,7 @@ app.get("/todos", function(req, res) {
 });
 
 // GET /todos/:id
-app.get("/todos/:id", function(req, res) {
+app.get("/todos/:id", function(req, res, next) {
 	var todoId = parseInt(req.params.id, 10);
 	var matchedTodo = _.findWhere(todos, {id: todoId});
 	
@@ -43,7 +43,13 @@ app.get("/todos/:id", function(req, res) {
 	} else {
 		res.status(404).send();
 	}
+	next();
 });
+
+// app.get("/todos/:id", function(req, res) {
+// 	console.log("tuli");
+// });
+
 
 // POST /todos
 app.post("/todos", function(req, res) {
