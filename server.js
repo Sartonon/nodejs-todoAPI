@@ -7,7 +7,6 @@ var db = require("./db.js");
 var app = express();
 var PORT = process.env.PORT || 3000;
 var todos = [];
-var todoNextId = 1;
 
 app.use(bodyParser.json());
 
@@ -64,7 +63,7 @@ app.post("/todos", function(req, res) {
 	db.todo.create(body).then(function(todo) {
 		res.json(todo.toJSON());
 	}, function(e) {
-		response.status(400).json(e);
+		res.status(400).json(e);
 	});
 });
 
@@ -89,6 +88,7 @@ app.delete("/todos/:id", function(req, res) {
 	});
 
 });
+
 
 // PUT /todos/:id
 app.put("/todos/:id", function(req, res) {
@@ -126,14 +126,15 @@ app.post('/users', function(req, res) {
 	var body = _.pick(req.body, "email", "password");
 
 	db.user.create(body).then(function(user) {
-		res.json(user.toJSON());
+		console.log("moi");
+		res.json(user.toPublicJSON());
 	}, function(e) {
 		res.status(400).json(e);
 	});
 });
 
 
-db.sequelize.sync().then(function() {
+db.sequelize.sync({force: true}).then(function() {
 	app.listen(PORT, function() {
 		console.log("Express listening on port: " + PORT + "!");
 	});
