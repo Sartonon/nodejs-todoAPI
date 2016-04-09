@@ -58,6 +58,7 @@ module.exports = function (sequelize, DataTypes) {
                         if (!user || !bcrypt.compareSync(body.password, user.get("password_hash"))) {
                             return reject();
                         }
+                        // KAIKKI OK!!!
                         return resolve(user);
                     }, function (e) {
                         return reject();
